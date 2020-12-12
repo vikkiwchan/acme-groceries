@@ -3,6 +3,7 @@ const { static } = express;
 const path = require('path');
 
 const app = express();
+app.use(express.json());
 
 app.use('/dist', static(path.join(__dirname, 'dist')));
 app.use(express.json());
@@ -23,6 +24,15 @@ app.put('/api/groceries/:id', async(req, res, next)=> {
     const grocery = await Grocery.findByPk(req.params.id);
     await grocery.update(req.body);
     res.send(grocery);
+  }
+  catch(ex){
+    next(ex);
+  }
+});
+
+app.post('/api/groceries', async(req, res, next)=> {
+  try {
+    res.send(await Grocery.create(req.body));
   }
   catch(ex){
     next(ex);

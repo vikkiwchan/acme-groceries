@@ -4,22 +4,9 @@ import { connect, Provider } from 'react-redux';
 import axios from 'axios';
 import Nav from './Nav';
 import store from './store';
+import Groceries from './Groceries';
+import CreateForm from './CreateForm';
 
-const _Groceries = ({ groceries, view })=> {
-  return (
-      <ul>
-        {
-          groceries.filter(grocery => !view || ( grocery.purchased && view === 'purchased') ||( !grocery.purchased && view === 'needs') ).map( grocery => {
-            return (
-              <li key={ grocery.id } className={ grocery.purchased ? 'purchased': ''}>{ grocery.name }</li>
-            );
-          })
-        }
-      </ul>
-  );
-};
-
-const Groceries = connect(state => state)(_Groceries);
 
 
 class _App extends Component{
@@ -36,6 +23,7 @@ class _App extends Component{
       <div>
         <h1>Acme Groceries</h1>
         <Nav />
+        <CreateForm />
         <Groceries />
       </div>
     );
