@@ -23,7 +23,12 @@ const updatedGrocery = (updated) => ({
 // THUNKS
 export const createGrocery = (name) => {
   return async (dispatch) => {
-    const grocery = (await axios.post('/api/groceries', { name })).data;
+    let grocery;
+    if (name === 'random') {
+      grocery = (await axios.post('/api/groceries/random')).data;
+    } else {
+      grocery = (await axios.post('/api/groceries', { name })).data;
+    }
     dispatch(createdGrocery(grocery));
   };
 };
