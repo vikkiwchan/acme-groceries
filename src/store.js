@@ -2,14 +2,16 @@ import { createStore, applyMiddleware, combineReducers } from 'redux';
 import logger from 'redux-logger';
 import axios from 'axios';
 import thunkMiddleware from 'redux-thunk';
+import viewReducer from './reducerSlices/viewReducer';
+import groceryReducer from './reducerSlices/groceryReducer';
 
 // ACTION TYPES
-const LOAD = 'LOAD';
-const UPDATE = 'UPDATE';
-const CREATE = 'CREATE';
-const SET_VIEW = 'SET_VIEW';
+export const LOAD = 'LOAD';
+export const UPDATE = 'UPDATE';
+export const CREATE = 'CREATE';
+export const SET_VIEW = 'SET_VIEW';
 
-// ACTION CREATOR
+// ACTION CREATORS
 const createdGrocery = (grocery) => ({
   type: CREATE,
   grocery,
@@ -42,27 +44,6 @@ export const updateGrocery = (grocery) => {
     ).data;
     dispatch(updatedGrocery(updated));
   };
-};
-
-// REDUCER SLICES
-const groceryReducer = (state = [], action) => {
-  if (action.type === LOAD) {
-    return action.groceries;
-  }
-  if (action.type === UPDATE) {
-    return state.map((grocery) =>
-      grocery.id === action.grocery.id ? action.grocery : grocery
-    );
-  }
-  if (action.type === CREATE) {
-    return state.concat(action.grocery);
-  } else return state;
-};
-
-const viewReducer = (state = '', action) => {
-  if (action.type === SET_VIEW) {
-    return action.view;
-  } else return state;
 };
 
 const store = createStore(
