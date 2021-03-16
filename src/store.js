@@ -22,6 +22,16 @@ const updatedGrocery = (updated) => ({
   grocery: updated,
 });
 
+export const setView = (view) => ({
+  type: SET_VIEW,
+  view,
+});
+
+const _load = (groceries) => ({
+  type: LOAD,
+  groceries,
+});
+
 // THUNKS
 export const createGrocery = (name) => {
   return async (dispatch) => {
@@ -43,6 +53,13 @@ export const updateGrocery = (grocery) => {
       })
     ).data;
     dispatch(updatedGrocery(updated));
+  };
+};
+
+export const load = () => {
+  return async (dispatch) => {
+    const groceries = (await axios.get('/api/groceries')).data;
+    dispatch(_load(groceries));
   };
 };
 
